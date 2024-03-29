@@ -1,1 +1,5 @@
 node_modules
+ignition/deployments
+typechain-types
+cache
+artifacts
