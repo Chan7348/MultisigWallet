@@ -1,21 +1,13 @@
 import { ethers } from "hardhat";
+import { vars } from "hardhat/config";
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const unlockTime = currentTimestampInSeconds + 60;
+  const Wallet = await ethers.deployContract("Wallet", [[vars.get("TEST1_ACCOUNT"), vars.get("TEST2_ACCOUNT")], 2]);
 
-  const lockedAmount = ethers.parseEther("0.001");
-
-  const lock = await ethers.deployContract("Lock", [unlockTime], {
-    value: lockedAmount,
-  });
-
-  await lock.waitForDeployment();
+  await Wallet.waitForDeployment();
 
   console.log(
-    `Lock with ${ethers.formatEther(
-      lockedAmount
-    )}ETH and unlock timestamp ${unlockTime} deployed to ${lock.target}`
+    `deployed to ${Wallet.target}`
   );
 }
 
